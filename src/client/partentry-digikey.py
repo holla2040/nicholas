@@ -4,7 +4,7 @@
 # arg 2 is is digikey part number | digikey part page url
 
 
-urltemplate = "http://hollabaugh.com/electronicparts.php?%s"
+urltemplate = "http://hollabaugh.com/inventory/electronicparts.php?%s"
 
 import lxml.html
 from lxml.etree import tostring
