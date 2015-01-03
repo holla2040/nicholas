@@ -7,12 +7,14 @@ Here's a tiny ERP system that manages electronic part inventory in a database. T
 
 Using the project should decrease circuit design workflow time by decreasing part selection and inventory level management time. 
 
-Technology used
-   CadSoft Eagle and User Language Programs (ULP)
-   Apache HTTP and PHP5
-   AngularJS
-   MySQL
-   Python command line programs
+Technology used<br>
+<ul>
+<li>CadSoft Eagle and User Language Programs (ULP)</li>
+<li>Apache HTTP and PHP5</li>
+<li>AngularJS</li>
+<li>MySQL</li>
+<li>Python command line programs</li>
+</ul>
    
    
 
