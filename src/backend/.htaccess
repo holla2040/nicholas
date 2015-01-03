@@ -1,0 +1,6 @@
+<Files "*">
+AuthType Basic
+AuthName "Password Required"
+AuthUserFile /home/sites/hollabaugh.com/htpasswd
+require valid-user
+</Files>
