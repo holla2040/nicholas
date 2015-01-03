@@ -17,6 +17,6 @@ Technology used<br>
 </ul>
    
    
-Why nicholas? You might think Tesla and that's fine. Nicholas was Wyatt Earp childhood name, so the tiny ERP was nicholas.  
+Why nicholas? You might think Tesla and that's fine. Nicholas was Wyatt Earp's <a href='http://en.wikipedia.org/wiki/Wyatt_Earp#Early_life'>childhood name</a>, so the tiny ERP was nicholas.  
    
 
