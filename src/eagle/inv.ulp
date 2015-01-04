@@ -1,0 +1,18 @@
+#include "auth.txt"; // sets DB* variables below
+
+if (argc == 1) {
+    dlgMessageBox("inv command needs an argument");
+    exit(1);
+} 
+
+if (argc == 2) {
+    string data;
+    string url = "http://"+DBUSERNAME+":"+DBPASSWORD+"@"+DBHOST+"/electronicparts.php?action=bydesc&q="+argv[1];
+
+    if (netget(data,url) >= 0) {
+        dlgMessageBox(data);
+         //strsplit(Database, data, '\n');
+         //status("retrieving database from "+url);
+    }
+}
+
