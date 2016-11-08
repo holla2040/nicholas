@@ -83,8 +83,8 @@
 ?><!DOCTYPE html>
 <html ng-app="">
 <head>
-<link rel="stylesheet" href = "http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+<link rel="stylesheet" href = "bootstrap.min.css">
+<script src= "angular.min.js"></script>
 <style>
 input {
     background-color:transparent;
@@ -116,6 +116,7 @@ tr,td,table {
       <th>Notes</th>
       <th>Location</th>
       <th>Reference</th>
+      <th>Image</th>
     </tr>
   </thead>
   <tbody>
@@ -153,6 +154,7 @@ tr,td,table {
       <td><input type='text' value='{{ item.reference }}' size='15' 
             ng-blur="update(item.id,'reference',$event.srcElement.value)"
             ng-keyup="$event.keyCode == 13 ? update(item.id,'reference',$event.srcElement.value) : null"></input></td>
+      <td><a target="_blank" href='inventoryimages/{{item.imagefile}}'><img src='inventoryimages/{{item.imagefile}}' height='30'></a></td>
       <td><img src='images/icon_delete.png' ng-click='delete(item.id);'></td>
     </tr>
   </tbody>

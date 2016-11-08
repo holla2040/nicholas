@@ -1,0 +1,28 @@
+.camcontent{
+  display: block;
+  position: relative;
+  overflow: hidden;
+  height: 480px;
+  margin: auto;
+  }
+.cambuttons button {
+  border-radius: 15px;
+  font-size: 18px;
+  }
+.cambuttons button:hover {
+  cursor: pointer;
+  border-radius: 15px;
+  background: #00dd00 ;    /* green */ 
+  }
+
+input {
+    width: 200px;
+}
+
+.label {
+    width: 130px;
+}
+
+.inputwide {
+    width: 300px;
+}
