@@ -1,7 +1,6 @@
 // from http://www.angularcode.com/simple-task-manager-application-using-angularjs-php-mysql/
 function partsController($scope,$http) {
-    var partsurl = "http://hollabaugh.com/inventory/electronicparts.php";
-
+    var partsurl = "http://hollabaugh.com/inventory/search.php";
 
     function getParts() {
         document.body.style.cursor = 'wait';
