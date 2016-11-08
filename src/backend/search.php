@@ -4,6 +4,18 @@
     define(DBPASS,"inventory7");
     define(DB,    "inventory");
 
+    if ($_GET['action'] == 'bydesc') {
+        $db = mysqli_connect(DBHOST,DBUSER,DBPASS,DB) or die("Error " . mysqli_error($link)); 
+        $query = "SELECT quantity,reference,description,distributorpart FROM electronicparts where description LIKE '%".$_GET['q']."%' and deleted=0 order by description" or die("Error in the consult.." . mysqli_error($db)); 
+        $result = $db->query($query); 
+        //header('Content-Type: plain/text');
+        while($row = mysqli_fetch_assoc($result)) { 
+            echo $row['reference']."\t".$row['quantity']."\t<br>".$row['manufacturer']."</br>\t".$row['manufacturerpart']."\t".$row['description']."\t".$row['distributor']."\t".$row['distributorpart']."\t".$row['location']."\n";
+        }
+        return;
+    }
+
+
     if ($_GET['action'] == 'tsv') {
         $db = mysqli_connect(DBHOST,DBUSER,DBPASS,DB) or die("Error " . mysqli_error($link)); 
         $query = "SELECT * FROM electronicparts where deleted=0 order by description" or die("Error in the consult.." . mysqli_error($db)); 
