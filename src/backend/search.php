@@ -104,6 +104,7 @@ tr,td,table {
 </head>
 
 <body ng-controller="partsController">
+<div style='float:right;margin-right:5px'><a href='entry.php'>Entry</a></div>
 <table class="tablea table-striped">
   <thead>
     <tr>
