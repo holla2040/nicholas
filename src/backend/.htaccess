@@ -1,6 +1,15 @@
-<Files "*">
+<Files "search.php">
 AuthType Basic
 AuthName "Password Required"
 AuthUserFile /home/sites/hollabaugh.com/htpasswd
 require valid-user
 </Files>
+
+<Files "entry.php">
+AuthType Basic
+AuthName "Password Required"
+AuthUserFile /home/sites/hollabaugh.com/htpasswd
+require valid-user
+</Files>
+
+

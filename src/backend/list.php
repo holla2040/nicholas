@@ -105,7 +105,7 @@ tr,td,table {
   </tbody>
 </table>
 
-<script src= "search.js"></script>
+<script src= "list.js"></script>
 
 </body>
 </html>

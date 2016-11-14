@@ -53,7 +53,9 @@ function search(v) {
         searchDigikey(v);
         $('#distributor').val('Digi-Key');
     } else {
+        console.log('11111');
         searchOctopart(v);
+        $('#distributor').val('Mouser');
     }
 }
 
