@@ -4,10 +4,11 @@
 
 string Database[];
 string itemInfo[];
+string tempInfo[];
 
 #include "auth.txt"; // sets DB* variables below
 
-string Version = "0.1";
+string Version = "0.2";
 
 char   Separator = ';'; // 2012-12-04
 
@@ -172,6 +173,9 @@ string I18N[] = {
   };
 int Language = strstr (I18N [0], language ()) / 3;
 
+void alert(string s) {
+    dlgMessageBox(s);
+}
 
 string tr (string s)
 {
@@ -191,7 +195,7 @@ string SeparatorString;
 int     NumParts;
 numeric string Lines[];
 numeric string PartName[];
-string  PartValue[], PartDevice[], PartPackage[], PartHeadline[];
+string  PartValue[], PartDevice[], PartPackage[], PartHeadline[],PartAttrDesc[];
 numeric string PartDescription [];
 int     PartValueOn[];
 int     Selected;
@@ -229,7 +233,7 @@ string StripWhiteSpace (string s)
 // Arguments: -
 //
 // Returns:   NumParts            - # of found parts
-//            ParteName[]
+//            PartName[]
 //            PartValue[]
 //            PartDevice[]
 //            PartPackage[]
@@ -239,6 +243,7 @@ string StripWhiteSpace (string s)
 //            FoundAttributes     - # of different attribute names found in schematic.
 //            AttributesList[]   - Sorted list of all attributes found in the schematic.
 //            PartAttributes[]   - Adjusted list of attributes per part.
+//            PartAttrDesc[]   - Adjusted list of attributes per part.
 
 void CollectPartData (string var)
 {
@@ -309,11 +314,15 @@ void CollectPartData (string var)
           PartHeadline[NumParts] = P.device.headline;
           PartDescription [NumParts] = P.device.description;
           PartValueOn[NumParts] = P.device.value == "On";
+          PartAttrDesc[NumParts] = "";
           // Zero all strings
           for (i = 0; i < FoundAttributes; i ++)
             attr[i] = "";
           P.attributes(A)
           {
+            if (A.name == "DESC") {
+              PartAttrDesc[NumParts] = A.value;
+            }
             for (i = 0; i < FoundAttributes; i ++)
               if (A.name == AttributesList[i])
               {
@@ -351,12 +360,16 @@ void GeneratePartList(void)
   Lines[NumLines] = "";
 }
 
-string DatabaseKey(int i) {
+string DatabaseKeyOld(int i) {
     string key;
     if ((PartDevice[i] == PartValue[i]) || strlen(PartValue[i]) == 0) {
         key = PartDevice[i];
     } else {
-        key = PartDevice[i] + ":" + PartValue[i];
+        if (strlen(PartAttrDesc[i])) {
+          key = PartDevice[i] + ":" + PartValue[i] + ":" + PartAttrDesc[i];
+        } else {
+          key = PartDevice[i] + ":" + PartValue[i];
+      }
     }
     return key;
 }
@@ -370,9 +383,9 @@ string DatabaseKey(int i) {
 //tsv line    
 //  reference         q   manu    manupart            description                     dist    distpart        location  
 //  0                 1   2       3                   4                               5               6       7
-//  C-USC0805:10u,10V 25  Kemet   C0805C106K8PACTU    CAP CER 10UF 10V 10% X5R 0805   digikey 399-4925-1-ND   inventory
+//  C-USC0805:10u:10V 25  Kemet   C0805C106K8PACTU    CAP CER 10UF 10V 10% X5R 0805   digikey 399-4925-1-ND   inventory
 
-int infoGet(string key) {
+int infoGetOld(string key) {
     int i = 0;
     for(;;) {
         if (strlen(Database[i])==0) {
@@ -387,6 +400,89 @@ int infoGet(string key) {
     return 0;
 }
 
+int infoGet(int j) {
+  int i = 0;
+  string key;
+  string ref;
+  string s[];
+
+  if (strlen(PartAttrDesc[j])) {
+    key = PartDevice[j] + ":" + PartValue[j] + ":" + PartAttrDesc[j];
+  } else {
+    if (strlen(PartValue[j])) {
+      key = PartDevice[j] + ":" + PartValue[j];
+    } else {
+      key = PartDevice[j];
+    }
+  }
+
+  // alert(">"+key+"<");
+
+
+  for(;;) { // exact match
+      if (strlen(Database[i])==0) {
+          break;
+      }
+
+      strsplit(tempInfo,Database[i],'\t');
+      ref = tempInfo[0];
+
+      if (ref == key) {
+          strsplit(itemInfo,Database[i],'\t');
+          return 1;
+      }
+
+      i++;
+  }
+
+  i = 0;
+  for(;;) { // exact match without DESC
+      if (strlen(Database[i])==0) {
+          break;
+      }
+
+      strsplit(tempInfo,Database[i],'\t');
+      strsplit(s,tempInfo[0],':'); 
+      ref = s[0]+":"+s[1];
+
+      if (ref == key) {
+          strsplit(itemInfo,Database[i],'\t');
+          return 1;
+      }
+
+      i++;
+  }
+
+// last try, look for alts
+  if (strlen(PartValue[j])) {
+    key = PartDevice[j] + ":" + PartValue[j];
+  } else {
+    key = PartDevice[j];
+  }
+
+  i = 0;
+  for(;;) { // exact match without DESC
+    if (strlen(Database[i])==0) {
+        break;
+    }
+
+    strsplit(tempInfo,Database[i],'\t');
+    strsplit(s,tempInfo[0],':'); 
+    ref = s[0]+":"+s[1];
+
+    if (ref == key) {
+        strsplit(itemInfo,Database[i],'\t');
+        itemInfo[3] = "**ALT** "+itemInfo[3];
+        return 1;
+    }
+
+    i++;
+  }
+
+
+  return 0;
+}
+
 void GenerateValueList (void)
 {
   int NumLines = 0;
@@ -396,7 +492,7 @@ void GenerateValueList (void)
 
   if (UseAttributes) s = strjoin(AttributesList, '\t');
 
-  Lines[NumLines ++] = tr ("Qty\tReference\tValue\tParts\tInv Count\tManufacturer\tManufacturer Part\tDescription\tDistributor\tDistributor Part\tLocation\t") + s;  
+  Lines[NumLines ++] = tr ("Qty\tValue\tParts\tManufacturer\tManufacturer Part\tDescription\tDistributor\tDistributor Part\tLocation\tInv Count\tReference\t") + s;  
   sort (NumParts, Index, PartValue, PartAttributes, PartName); 
   for (int n1 = 0, n2 = 0; ++ n2 <= NumParts; ) {
     int i1 = Index [n1];
@@ -406,15 +502,22 @@ void GenerateValueList (void)
     if (n2 < NumParts) {
       int i2 = Index [n2]; 
       strsplit (attr, PartAttributes[i2], Separator);
-      if (PartValue[i1] == PartValue[i2] && PartDevice[i1] == PartDevice[i2] && PartAttributes[i1] == PartAttributes[i2]) 
+      if (PartValue[i1] == PartValue[i2] && PartDevice[i1] == PartDevice[i2] && PartAttributes[i1] == PartAttributes[i2] && PartAttrDesc[i1] == PartAttrDesc[i2]) 
         continue;
     }
     string Quantity;
     sprintf (Quantity, "%d", n2 - n1);
     if ((strlen(PartValue[i1]) == 0) || (PartDevice[i1] == PartValue[i1])) {
-        Lines[NumLines] = Quantity + "\t" + PartDevice[i1] + "\t" + PartValue[i1] + "\t";
+        Lines[NumLines] = Quantity + "\t" + PartValue[i1] + "\t";
+        ref = PartDevice[i1];
     } else {
-        Lines[NumLines] = Quantity + "\t" + PartDevice[i1] + ":" + PartValue[i1] + "\t" + PartValue[i1] + "\t";
+        if (strlen(PartAttrDesc[i1])) {
+          Lines[NumLines] = Quantity + "\t" + PartValue[i1] + "\t";
+          ref = PartDevice[i1] + ":" + PartValue[i1] + ":" + PartAttrDesc[i1];
+        } else {
+          Lines[NumLines] = Quantity + "\t" + PartValue[i1] + "\t";
+          ref = PartDevice[i1] + ":" + PartValue[i1];
+        }
     }
 
     for (;;) {
@@ -430,18 +533,17 @@ void GenerateValueList (void)
 
     if (Database[0]) {
         int found;
-        string key = DatabaseKey(i1);
-        found = infoGet(key);
+        found = infoGet(i1);
         if (found) {
             for (int f = 1; f < 8; f++) { 
                 Lines[NumLines] += "\t" + itemInfo[f];
             }
-            status(Lines[NumLines]);
-            system("sleep 0.1");
+            // status(Lines[NumLines]);
+            // system("sleep 0.1");
         }
     }
 
-    Lines[NumLines] += "\t" + s;
+    Lines[NumLines] += "\t" + ref + "\t" + s;
     NumLines ++;
   }
   Lines[NumLines] = "";
@@ -655,14 +757,15 @@ schematic(SCH) {
 int GetInventory(string url) {
   string data;
   if (netget(data,url) >= 0) {
-     strsplit(Database, data, '\n');
-     status("retrieving database from "+url);
-     return 1;
+    //alert(data);
+    strsplit(Database, data, '\n');
+    status("retrieving database from "+url);
+    return 1;
   }
   return 0;
 }
 
-GetInventory("http://"+DBUSERNAME+":"+DBPASSWORD+"@"+DBHOST+"/electronicparts.php?action=tsv");
+GetInventory("http://"+DBHOST+"/list.php?action=tsv");
 setvariant(CurrentVariant);
 CollectPartData(CurrentVariant);
 GenerateList();
