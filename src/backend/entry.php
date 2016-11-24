@@ -22,7 +22,7 @@
 <body>
 <div style='float:right'><a href='search.php'>Search</a></div>
 <table>
-    <tr><td class='label'>Barcode</td><td><input id='v' onchange='search(this.value)'/></td></tr>
+    <tr><td class='label'>Barcode or PN</td><td><input id='v' onchange='search(this.value)'/></td></tr>
     <tr><td class='label'><button type='button' id="snap">Capture</button></td><td><video id="video" autoplay width='200' height='150'></video>&nbsp;<canvas id="preview">
 </table>
 <hr>

@@ -22,7 +22,7 @@
         $result = $db->query($query); 
         header('Content-Type: plain/text');
         while($row = mysqli_fetch_assoc($result)) { 
-            echo $row['reference']."\t".$row['quantity']."\t".$row['manufacturer']."\t".$row['partnumber']."\t".$row['description']."\t".$row['distributor']."\t".$row['distributorsku']."\t".$row['location']."\n";
+            echo $row['reference']."\t".$row['manufacturer']."\t".$row['partnumber']."\t".$row['description']."\t".$row['distributor']."\t".$row['distributorsku']."\t".$row['location']."\t".$row['quantity']."\n";
         }
         return;
     }
