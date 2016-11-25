@@ -29,12 +29,13 @@ void dbSearch(string url,string q) {
   string data;
   string line;
 
-  q = str_replace("-","%25",q);
+  //q = str_replace("-","%25",q);
   url += q;
 
   // alert(url);
 
   if (netget(data,url) >= 0) {
+    // data = str_replace(q,"<b>"+q+"</b>",data);
     strsplit(lines, data, '\n');
     i = 0;
     for(;;) {
@@ -42,7 +43,7 @@ void dbSearch(string url,string q) {
           break;
         }
         strsplit(items,lines[i],'\t');
-        sprintf(line,"%-5s %s\n",items[1],strsub(items[4],0,40));
+        sprintf(line,"%-4s %-20s %-10s %-40s %-15s\n",items[1],strsub(items[2],0,20),strsub(items[3],0,10),strsub(items[4],0,40),items[0]);
         myitems += line;
         i++;
     }
@@ -52,6 +53,15 @@ void dbSearch(string url,string q) {
 
 
 string q = argv[1];
+if (strlen(argv[2])) {
+  q += "%25"+argv[2];
+}
+if (strlen(argv[3])) {
+  q += "%25"+argv[3];
+}
+if (strlen(argv[4])) {
+  q += "%25"+argv[4];
+}
 dbSearch("http://"+DBHOST+"/list.php?action=bydesc&q=",q);
 
 
