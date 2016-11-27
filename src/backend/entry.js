@@ -70,7 +70,7 @@ function searchDigikey(v) {
 // C0805C106K8PACTU
 function searchOctopart(mpn) {
     var url = "https://octopart.com/api/v3/parts/match";
-    url += '?apikey=629371be&include[]=descriptions&include[]=datasheets'
+    url += '?apikey=629371be&include[]=descriptions&include[]=datasheets&include[]=imagesets'
     url += '&callback=?';
 
     var queries = [
@@ -102,6 +102,7 @@ function searchOctopart(mpn) {
             });
 
             $('#datasheeturl').val(item.datasheets[0].url);
+            $('#image').val(item.imagesets[0].medium_image.url);
                 
             $.each(item.offers, function(j, offer) {
                 if (offer.seller.name == 'Digi-Key') {
