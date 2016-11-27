@@ -99,12 +99,12 @@ tr,td,table {
     vertical-align: text-bottom;
 }
 
-.thumbnail1:hover {
+.octothumb:hover {
     position:relative;
     top:-25px;
     left:-35px;
-    width:500px;
-    height:auto;
+    width:auto;
+    height:100px;
     display:block;
     z-index:999;
 }
@@ -147,7 +147,7 @@ tr,td,table {
             ng-keyup="$event.keyCode == 13 ? update(item.id,'partnumber',$event.srcElement.value) : null"></input>
       </td>
       <td>
-      <a href='inventoryimages/{{item.image}}' target='_blank' ng-if='item.image'><img src='inventoryimages/{{item.image}}' width='16px' height='16px'></a><img src='images/icon_octopart_blank.png' width='16px' height='16px' ng-if='!item.image'></a>
+      <a href='inventoryimages/{{item.image}}' target='_blank' ng-if='item.image'><img src='inventoryimages/{{item.image}}' width='16px' height='16px' class='octothumb'></a><img src='images/icon_octopart_blank.png' width='16px' height='16px' ng-if='!item.image'></a>
             <input type='text' value='{{ item.description }}' size='60' 
             ng-blur="update(item.id,'description',$event.srcElement.value)"
             ng-keyup="$event.keyCode == 13 ? update(item.id,'description',$event.srcElement.value) : null"></input></td>
