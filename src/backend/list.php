@@ -6,11 +6,11 @@
 
     if ($_GET['action'] == 'bydesc') {
         $db = mysqli_connect(DBHOST,DBUSER,DBPASS,DB) or die("Error " . mysqli_error($link)); 
-        $query = "SELECT quantity,reference,description,distributorsku FROM electronicparts where description LIKE '%".$_GET['q']."%' and deleted=0 order by description" or die("Error in the consult.." . mysqli_error($db)); 
+        $query = "SELECT * FROM electronicparts where description LIKE '%".$_GET['q']."%' and deleted=0 order by description" or die("Error in the consult.." . mysqli_error($db)); 
         $result = $db->query($query); 
         //header('Content-Type: plain/text');
         while($row = mysqli_fetch_assoc($result)) { 
-            echo $row['reference']."\t".$row['quantity']."\t<br>".$row['manufacturer']."</br>\t".$row['partnumber']."\t".$row['description']."\t".$row['distributor']."\t".$row['distributorsku']."\t".$row['location']."\n";
+            echo $row['reference']."\t".$row['quantity']."\t".$row['manufacturer']."\t".$row['partnumber']."\t".$row['description']."\t".$row['distributor']."\t".$row['distributorsku']."\t".$row['location']."\n";
         }
         return;
     }
@@ -100,7 +100,7 @@ tr,td,table {
       <td><input type='text' value='{{ item.notes }}'></input></td>
       <td><input type='text' value='{{ item.location }}' size='5' ></input></td>
       <td><input type='text' value='{{ item.reference }}' size='15'></input></td>
-      <td><a target="_blank" href='inventoryimages/{{item.imagefile}}'><img src='inventoryimages/{{item.imagefile}}' height='30'></a></td>
+      <td><a target="_blank" href='inventoryimages/{{item.photo}}'><img src='inventoryimages/{{item.photo}}' height='30'></a></td>
     </tr>
   </tbody>
 </table>

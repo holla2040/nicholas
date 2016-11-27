@@ -96,11 +96,22 @@ inputa:focus {
 
 tr,td,table {
     padding-right:2px;
-
+    vertical-align: text-bottom;
 }
 
+.thumbnail1:hover {
+    position:relative;
+    top:-25px;
+    left:-35px;
+    width:500px;
+    height:auto;
+    display:block;
+    z-index:999;
+}
 
 </style>
+
+
 </head>
 
 <body ng-controller="partsController">
@@ -128,11 +139,16 @@ tr,td,table {
             ng-keyup="$event.keyCode == 13 ? update(item.id,'manufacturer',$event.srcElement.value) : null"></input></td>
       <td>
         <a href='http://www.google.com/search?q={{ item.manufacturer }}+{{ item.partnumber }}' target='_blank'><img src='images/icon_goto.gif'></a>
+      <a href='{{ item.datasheeturl }}' target='_blank'><img src='images/icon_pdf.png'></a>
+      <a href='{{ item.octoparturl }}' ng-if='item.octoparturl' target='_blank'><img src='images/icon_octopart.png'></a>
+      <img src='images/icon_octopart_blank.png' ng-if='!item.octoparturl'>
         <input type='text' value='{{ item.partnumber }}' size='24' 
             ng-blur="update(item.id,'partnumber',$event.srcElement.value)"
             ng-keyup="$event.keyCode == 13 ? update(item.id,'partnumber',$event.srcElement.value) : null"></input>
       </td>
-      <td><input type='text' value='{{ item.description }}' size='60' 
+      <td>
+      <a href='inventoryimages/{{item.image}}' target='_blank' ng-if='item.image'><img src='inventoryimages/{{item.image}}' width='16px' height='16px'></a><img src='images/icon_octopart_blank.png' width='16px' height='16px' ng-if='!item.image'></a>
+            <input type='text' value='{{ item.description }}' size='60' 
             ng-blur="update(item.id,'description',$event.srcElement.value)"
             ng-keyup="$event.keyCode == 13 ? update(item.id,'description',$event.srcElement.value) : null"></input></td>
       <td>
@@ -155,7 +171,7 @@ tr,td,table {
       <td><input type='text' value='{{ item.reference }}' size='20' 
             ng-blur="update(item.id,'reference',$event.srcElement.value)"
             ng-keyup="$event.keyCode == 13 ? update(item.id,'reference',$event.srcElement.value) : null"></input></td>
-      <td><a target="_blank" href='inventoryimages/{{item.imagefile}}'><img src='inventoryimages/{{item.imagefile}}' height='30'></a></td>
+      <td><a target="_blank" href='inventoryimages/{{item.photo}}'><img src='inventoryimages/{{item.photo}}' height='30'></a></td>
       <td><img src='images/icon_delete.png' ng-click='delete(item.id);'></td>
     </tr>
   </tbody>

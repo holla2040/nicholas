@@ -8,7 +8,7 @@
         define(DB,    "inventory");
 
         $db = mysqli_connect(DBHOST,DBUSER,DBPASS,DB) or die("Error " . mysqli_error($link)); 
-        $query = 'INSERT INTO electronicparts (quantity,manufacturer,partnumber,description,distributor,distributorsku,distributorurl,octoparturl,location,datasheeturl,imagefile) values ('.$_POST['quantity'].',"'.$_POST['manufacturer'].'","'.$_POST['partnumber'].'","'.$_POST['description'].'","'.$_POST['distributor'].'","'.$_POST['distributorsku'].'","'.$_POST['distributorurl'].'","'.$_POST['octoparturl'].'","'.$_POST['location'].'","'.$_POST['datasheeturl'].'","'.$_POST['imagefile'].'")';
+        $query = 'INSERT INTO electronicparts (quantity,manufacturer,partnumber,description,distributor,distributorsku,distributorurl,octoparturl,location,datasheeturl,photo) values ('.$_POST['quantity'].',"'.$_POST['manufacturer'].'","'.$_POST['partnumber'].'","'.$_POST['description'].'","'.$_POST['distributor'].'","'.$_POST['distributorsku'].'","'.$_POST['distributorurl'].'","'.$_POST['octoparturl'].'","'.$_POST['location'].'","'.$_POST['datasheeturl'].'","'.$_POST['photo'].'")';
         $result = $db->query($query); 
     };
 ?><html>
@@ -40,7 +40,7 @@
     <tr><td class='label'>Distributor URL</td><td><input    name='distributorurl' id='distributorurl' class='inputwide'></td></tr>
     <tr><td class='label'>Datasheet URL</td><td><input    name='datasheeturl' id='datasheeturl' class='inputwide'></td></tr>
     <tr><td class='label'>Octopart URL</td><td><input   name='octoparturl'    id='octoparturl' class='inputwide'></td></tr>
-    <tr><td class='label'>Image File</td><td><input   name='imagefile'    id='imagefile' class='inputwide'></td></tr>
+    <tr><td class='label'>Image File</td><td><input   name='photo'    id='photo' class='inputwide'></td></tr>
 </table>
 <form>
 <hr>

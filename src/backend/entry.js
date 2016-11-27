@@ -34,7 +34,7 @@ window.onload = function () {
     document.getElementById("snap").addEventListener("click", function() {
         previewcontext.drawImage(video, 0, 0, 200, 150);
         snapshotcontext.drawImage(video, 0, 0, 1280, 800);
-        $("#imagefile").val(dateFormat(new Date(),"yymmdd-HHMMss")+".jpg");
+        $("#photo").val(dateFormat(new Date(),"yymmdd-HHMMss")+".jpg");
         $("#location").focus();
         imageSave();
         $("#snap").css('background-color', 'white');
@@ -126,18 +126,18 @@ function imageSave() {
       data: { 
          imgBase64: dataUrl,
          user: "nicholas",        
-         imagefile: $("#imagefile").val(),        
+         photo: $("#photo").val(),        
          userid: 25          
       }
     }).done(function(msg) {
-        console.log("saved "+$("#imagefile").val());
+        console.log("saved "+$("#photo").val());
     });
 };
 
 function validateForm() {
     var e = 0;
     console.log($("#distributorsku").val());
-    if ($("#imagefile").val().length == 0 ) {
+    if ($("#photo").val().length == 0 ) {
         $("#snap").css('background-color', 'red');
         //alert("please take a photo");
         e += 1;

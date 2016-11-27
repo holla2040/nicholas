@@ -6,10 +6,10 @@
     $datime = date("Y-m-d-H.i.s", time() ) ; # - 3600*7
 
     $userid  = $_POST['userid'] ;
-    $imagefile  = $_POST['imagefile'] ;
+    $photo  = $_POST['photo'] ;
 
     // name & save the image file 
-    $fp = fopen('inventoryimages/'.$imagefile, 'w');
+    $fp = fopen('inventoryimages/'.$photo, 'w');
     fwrite($fp, $unencoded);
     fclose($fp);
 ?>
