@@ -69,6 +69,7 @@ function searchDigikey(v) {
 
 // C0805C106K8PACTU
 function searchOctopart(mpn) {
+    var packaging = ['Cut Tape','Bulk','Tube'];
     var url = "https://octopart.com/api/v3/parts/match";
     url += '?apikey=629371be&include[]=descriptions&include[]=datasheets&include[]=imagesets'
     url += '&callback=?';
@@ -89,7 +90,7 @@ function searchOctopart(mpn) {
         $('#partnumber').val(queries[0].mpn);
         $.each(results, function(i, result) {
             item = result.items[0];
-//console.log(item);
+// console.log(item);
             $('#manufacturer').val(item.manufacturer.name);
             $('#octoparturl').val(item.octopart_url);
 
@@ -102,17 +103,22 @@ function searchOctopart(mpn) {
             });
 
             $('#datasheeturl').val(item.datasheets[0].url);
-            $('#image').val(item.imagesets[0].medium_image.url);
                 
             $.each(item.offers, function(j, offer) {
+console.log(offer);
+console.log(offer.seller.name);
                 if (offer.seller.name == 'Digi-Key') {
-                    if (offer.packaging == "Cut Tape") {
+                    if (packaging.indexOf(offer.packaging)) {
+                        $('#distributor').val("Digi-Key");
                         $('#distributorsku').val(offer.sku);
                         $('#distributorurl').val(offer.product_url);
-//console.log(offer);
                     }
                 }
             });
+            if (item.imagesets[0].medium_image.url) {
+                $('#image').val(item.imagesets[0].medium_image.url);
+            }
+
         });
     });
 };

@@ -11,7 +11,7 @@
             file_put_contents("/tmp/out.txt",$fn);
             file_put_contents("inventoryimages/".$fn, fopen($_POST['image'], 'r'));
         } else {
-            $fn = "icon_octopart_blank.jpg";
+            $fn = "icon_octopart_blank.png";
         }
 
         $db = mysqli_connect(DBHOST,DBUSER,DBPASS,DB) or die("Error " . mysqli_error($link)); 
