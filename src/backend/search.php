@@ -35,6 +35,15 @@
         while($row = mysqli_fetch_assoc($result)) { 
             $items['items'][] = $row;
         } 
+
+        $query = "SELECT * FROM tubes where deleted=0 order by description" or die("Error in the consult.." . mysqli_error($db)); 
+        $result = $db->query($query); 
+        while($row = mysqli_fetch_assoc($result)) { 
+            $items['items'][] = $row;
+        } 
+
+
+
         header('Content-Type: application/json');
         echo json_encode($items);
     }
@@ -83,8 +92,10 @@
 ?><!DOCTYPE html>
 <html ng-app="">
 <head>
-<link rel="stylesheet" href = "bootstrap.min.css">
-<script src= "angular.min.js"></script>
+<link rel="stylesheet" href = "css/bootstrap.min.css">
+<script src= "js/angular.min.js"></script>
+<script src= "js/jquery.js"></script>
+<link href="css/zoom.css" rel="stylesheet">
 <style>
 input {
     background-color:transparent;
@@ -158,7 +169,7 @@ tr,td,table {
             ng-keyup="$event.keyCode == 13 ? update(item.id,'partnumber',$event.srcElement.value) : null"></input>
       </td>
       <td>
-      <a href='inventoryimages/{{item.image}}' target='_blank' ng-if='item.image'><img src='inventoryimages/{{item.image}}' width='16px' height='16px' class='octothumb'></a><img src='images/icon_octopart_blank.png' width='16px' height='16px' ng-if='!item.image'></a>
+            <img src='inventoryimages/{{item.image}}' width='16px' height='16px' data-action='zoom'><img src='images/icon_octopart_blank.png' width='16px' height='16px' ng-if='!item.image'></a>
             <input type='text' value='{{ item.description }}' size='60' 
             ng-blur="update(item.id,'description',$event.srcElement.value)"
             ng-keyup="$event.keyCode == 13 ? update(item.id,'description',$event.srcElement.value) : null"></input></td>
@@ -182,13 +193,16 @@ tr,td,table {
       <td><input type='text' value='{{ item.reference }}' size='20' 
             ng-blur="update(item.id,'reference',$event.srcElement.value)"
             ng-keyup="$event.keyCode == 13 ? update(item.id,'reference',$event.srcElement.value) : null"></input></td>
-      <td><a target="_blank" href='inventoryimages/{{item.photo}}'><img src='inventoryimages/{{item.photo}}' class='photothumb' height='30'></a></td>
+      <td><img src='inventoryimages/{{item.photo}}' class='photothumb' height='30' data-action='zoom'></td>
       <td><img src='images/icon_delete.png' ng-click='delete(item.id);'></td>
     </tr>
   </tbody>
 </table>
 
-<script src= "search.js"></script>
+<script src= "js/search.js"></script>
+<script src="js/transition.js"></script>
+<script src="js/zoom.js"></script>
+
 
 </body>
 </html>

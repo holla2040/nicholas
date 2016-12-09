@@ -46,8 +46,8 @@
 ?><!DOCTYPE html>
 <html ng-app="">
 <head>
-<link rel="stylesheet" href = "bootstrap.min.css">
-<script src= "angular.min.js"></script>
+<link rel="stylesheet" href = "css/bootstrap.min.css">
+<script src= "js/angular.min.js"></script>
 <style>
 input {
     background-color:transparent;
@@ -105,7 +105,7 @@ tr,td,table {
   </tbody>
 </table>
 
-<script src= "list.js"></script>
+<script src= "js/list.js"></script>
 
 </body>
 </html>

@@ -32,8 +32,8 @@ window.onload = function () {
 
     // Get-Save Snapshot - image 
     document.getElementById("snap").addEventListener("click", function() {
-        previewcontext.drawImage(video, 0, 0, 200, 150);
-        snapshotcontext.drawImage(video, 0, 0, 1280, 800);
+        previewcontext.drawImage(video, 0, 0, 640, 480);
+        snapshotcontext.drawImage(video, 0, 0, 640, 480);
         $("#photo").val(dateFormat(new Date(),"yymmdd-HHMMss")+".jpg");
         $("#location").focus();
         imageSave();
