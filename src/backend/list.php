@@ -48,6 +48,8 @@
 <head>
 <link rel="stylesheet" href = "css/bootstrap.min.css">
 <script src= "js/angular.min.js"></script>
+<script src= "js/jquery.js"></script>
+<link href="css/zoom.css" rel="stylesheet">
 <style>
 input {
     background-color:transparent;
@@ -88,9 +90,14 @@ tr,td,table {
       <td><input type='text' value='{{ item.manufacturer }}' size='8'</input></td>
       <td>
         <a href='http://www.google.com/search?q={{ item.manufacturer }}+{{ item.partnumber }}' target='_blank'><img src='images/icon_goto.gif'></a>
+      <a href='{{ item.datasheeturl }}' target='_blank'><img src='images/icon_pdf.png'></a>
+      <a href='{{ item.octoparturl }}' ng-if='item.octoparturl' target='_blank'><img src='images/icon_octopart.png'></a>
         <input type='text' value='{{ item.partnumber }}' size='20'></input>
       </td>
-      <td><input type='text' value='{{ item.description }}' size='50'></input></td>
+      <td>
+            <img src='inventoryimages/{{item.image}}' width='16px' height='16px' data-action='zoom'><img src='images/icon_octopart_blank.png' width='16px' height='16px' ng-if='!item.image'></a>
+            <input type='text' value='{{ item.description }}' size='50'></input>
+    </td>
       <td><input type='text' value='{{ item.distributor }}' size='5'></input>
         <a href='http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name={{ item.distributorsku }}' target='_blank' ng-if='item.distributorsku.length > 0'><img src='images/icon_goto.gif'></a> 
       </td>
@@ -100,12 +107,14 @@ tr,td,table {
       <td><input type='text' value='{{ item.notes }}'></input></td>
       <td><input type='text' value='{{ item.location }}' size='5' ></input></td>
       <td><input type='text' value='{{ item.reference }}' size='15'></input></td>
-      <td><a target="_blank" href='inventoryimages/{{item.photo}}'><img src='inventoryimages/{{item.photo}}' height='30'></a></td>
+      <td><img src='inventoryimages/{{item.photo}}' height='30' data-action='zoom'></td>
     </tr>
   </tbody>
 </table>
 
 <script src= "js/list.js"></script>
+<script src="js/transition.js"></script>
+<script src="js/zoom.js"></script>
 
 </body>
 </html>
