@@ -1,16 +1,10 @@
 // from http://www.angularcode.com/simple-task-manager-application-using-angularjs-php-mysql/
-function partsController($scope,$http,$location) {
-    var partsurl = "search.php";
+function partsController($scope,$http) {
+    var partsurl = "empty.php";
 
     function getParts() {
         document.body.style.cursor = 'wait';
-    
-        if ($location.search().limit) {
-            url = partsurl+"?action=items&limit="+$location.search().limit; 
-        } else {
-            url = partsurl+"?action=items";
-        }
-        $http.get(url).then(function(response){
+        $http.get(partsurl+"?action=items").then(function(response){
             $scope.items = response.data.items;
             document.body.style.cursor = 'auto';
         })
@@ -18,13 +12,10 @@ function partsController($scope,$http,$location) {
 
     $scope.update = function(id,field,text) {
 //        console.log('update '+id+" "+field+" "+text);
-        document.activeElement.blur();
-
-
+        document.body.style.cursor = 'wait';
         $http.get(partsurl+"?action=update&id="+id+"&field="+field+"&text="+text).then(function(response){
-
 //            console.log(response.data.items);
-// this make interface really slow            $scope.items = response.data.items;
+            $scope.items = response.data.items;
             document.body.style.cursor = 'auto';
         })
     }

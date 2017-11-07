@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Media Device Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    video, img {
+      width:1280px;
+    }
+  </style>
+</head>
+<body>
+
+<video autoplay></video>
+
+<script>
+    // from https://gist.github.com/anantn/1852070
+  (function() {
+    'use strict';
+    var video = document.querySelector('video')
+      , canvas;
+
+    /**
+     *  generates a still frame image from the stream in the <video>
+     *  appends the image to the <body>
+     */
+    function takeSnapshot() {
+      var img = document.querySelector('img') || document.createElement('img');
+      var context;
+      var width = video.offsetWidth
+        , height = video.offsetHeight;
+
+      canvas = canvas || document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+
+      context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, width, height);
+
+      img.src = canvas.toDataURL('image/png');
+      document.body.appendChild(img);
+    }
+
+function getConstraints0(videowidth, videoheight) {
+    var constraints = {facingMode: { exact: "environment" },
+                  width: { min: videowidth, ideal: videowidth, max: videowidth},    
+                  height: { min: videoheight, ideal: videoheight, max: videoheight},
+                  frameRate : {min: 5, max: 8 }
+                  };
+
+    console.log(constraints);
+
+    return constraints;
+};
+
+function getConstraints(videowidth, videoheight) {
+    var constraints = {
+                  width: { min: videowidth, ideal: videowidth, max: videowidth},    
+                  height: { min: videoheight, ideal: videoheight, max: videoheight},
+                  frameRate : {min: 5, max: 8 }
+                  };
+
+    console.log(constraints);
+
+    return constraints;
+};
+
+    // use MediaDevices API
+    // docs: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+    if (navigator.mediaDevices) {
+      // access the web cam
+      navigator.mediaDevices.getUserMedia({audio:false,video: getConstraints(1600,1200)})
+      // permission granted:
+        .then(function(stream) {
+          video.srcObject = stream;
+          video.addEventListener('click', takeSnapshot);
+        })
+        // permission denied:
+        .catch(function(error) {
+          document.body.textContent = 'Could not access the camera. Error: ' + error.name;
+        });
+    }
+  })();
+
+</script>
+</body>
+</html>

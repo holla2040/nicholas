@@ -29,12 +29,13 @@
 
 <body>
 <div style='float:right'><a href='search.php'>Search</a></div>
+<div style='float:right'><a href='search.php#?limit=25'>Search25</a>&nbsp;</div>
 <table>
     <tr><td class='label'>Barcode or PN</td><td><input id='v' onchange='search(this.value)'/></td></tr>
-    <tr><td class='label'><button type='button' id="snap">Capture</button></td><td><video id="video" autoplay width="640" height="480"></video>&nbsp;<canvas id="preview"  width="640" height="480"></canvas>
+    <tr><td class='label'><button type='button' id="snap">Capture</button></td><td><video id="video" autoplay width="800" height="600"></video>&nbsp;<canvas id="preview"  width="800" height="600"></canvas>
 </table>
 <hr>
-<form action='entry.php' method='post' onsubmit="return validateForm()">
+<form id='submitform' action='entry.php' method='post' onsubmit="return validateForm()">
 <table>
     <tr><td class='label'>Part Number</td><td><input    name='partnumber' id='partnumber'></td></tr>
     <tr><td class='label'>Quantity</td><td><input       name='quantity'   id='quantity'></td></tr>
@@ -59,8 +60,8 @@
         printf("%20s <b>%20s - %s</b> entered<br>",$_POST['quantity'],$_POST['manufacturer'],$_POST['partnumber']);
     }
 ?>
+<canvas id="snapshot" width='1600' height='1200' style="display:none"/>
 <script src="js/entry.js"></script>
-<canvas id="snapshot" width='640' height='480' style="display:none"/>
 
 </body>
 </html>

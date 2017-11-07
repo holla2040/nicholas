@@ -272,7 +272,7 @@
 
   // wait for dom ready (incase script included before body)
   $(function () {
-    setTimeout(function() {new ZoomService().listen(); console.log("done");},100);
+    setTimeout(function() {new ZoomService().listen();},100);
   })
 
 }(jQuery)

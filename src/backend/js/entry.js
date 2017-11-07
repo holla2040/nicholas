@@ -1,49 +1,77 @@
-window.onload = function () {
-       var preview = document.getElementById("preview");
-       var snapshot = document.getElementById("snapshot");
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
-        previewcontext = preview.getContext("2d");
-        snapshotcontext = snapshot.getContext("2d");
-        video = document.getElementById("video");
-        videoObj = { "video": true };
-        image_format= "jpeg";
-        jpeg_quality= 85;
-        errBack = function(error) {
-            console.log("Video capture error: ", error.code); 
-        };
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
 
-    // Put video listeners into place
-    if(navigator.getUserMedia) { // Standard
-        navigator.getUserMedia(videoObj, function(stream) {
-            video.src = window.webkitURL.createObjectURL(stream);
-            video.play();
-        }, errBack);
-    } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-        navigator.webkitGetUserMedia(videoObj, function(stream){
-            video.src = window.webkitURL.createObjectURL(stream);
-            video.play();
-        }, errBack);
-    } else if(navigator.mediaDevices.getUserMedia) { // moz-prefixed
-        navigator.mozGetUserMedia(videoObj, function(stream){
-            video.src = window.URL.createObjectURL(stream);
-            video.play();
-        }, errBack);
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+(function () {
+    'use strict';
+
+    var preview = document.getElementById("preview");
+    var snapshot = document.getElementById("snapshot");
+
+    var video = document.querySelector('video');
+
+    var previewcontext = preview.getContext("2d");
+    var snapshotcontext = snapshot.getContext("2d");
+    var errBack = function(error) {
+        console.log("Video capture error: ", error.code); 
+    };
+
+function getConstraints(videowidth, videoheight) {
+    var constraints = {
+                  width: { min: videowidth, ideal: videowidth, max: videowidth},    
+                  height: { min: videoheight, ideal: videoheight, max: videoheight},
+                  frameRate : {min: 5, max: 8 }
+                  };
+    return constraints;
+};
+
+    // use MediaDevices API
+    // docs: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+    if (navigator.mediaDevices) {
+      // access the web cam
+      navigator.mediaDevices.getUserMedia({audio:false,video: getConstraints(1600,1200)})
+      // permission granted:
+        .then(function(stream) {
+          video.srcObject = stream;
+          // video.addEventListener('click', takeSnapshot);
+          video.play();
+        })
+        // permission denied:
+        .catch(function(error) {
+          document.body.textContent = 'Could not access the camera. Error: ' + error.name;
+        });
     }
 
     // Get-Save Snapshot - image 
     document.getElementById("snap").addEventListener("click", function() {
-        previewcontext.drawImage(video, 0, 0, 640, 480);
-        snapshotcontext.drawImage(video, 0, 0, 640, 480);
+        previewcontext.drawImage(video, 0, 0, 800, 600);
+        snapshotcontext.drawImage(video, 0, 0, 1600, 1200);
         $("#photo").val(dateFormat(new Date(),"yymmdd-HHMMss")+".jpg");
-        $("#location").focus();
-        imageSave();
+        $("#quantity").focus();
+        // imageSave();
         $("#snap").css('background-color', 'white');
     });
 
-};
+    var loc = getUrlParameter('location');
+    if (loc) {
+        $('#location').val(loc);
+    } 
+
+})();
 
 $(document).ready(function () {
-    $("#v").focus();
+    $("#quantity").focus();
 });
 
 function search(v) {
@@ -105,8 +133,8 @@ function searchOctopart(mpn) {
             $('#datasheeturl').val(item.datasheets[0].url);
                 
             $.each(item.offers, function(j, offer) {
-console.log(offer);
-console.log(offer.seller.name);
+// console.log(offer);
+// console.log(offer.seller.name);
                 if (offer.seller.name == 'Digi-Key') {
                     if (packaging.indexOf(offer.packaging)) {
                         $('#distributor').val("Digi-Key");
@@ -135,7 +163,8 @@ function imageSave() {
          user: "nicholas",        
          photo: $("#photo").val(),        
          userid: 25          
-      }
+      },
+      async: false
     }).done(function(msg) {
         console.log("saved "+$("#photo").val());
     });
@@ -143,7 +172,6 @@ function imageSave() {
 
 function validateForm() {
     var e = 0;
-    console.log($("#distributorsku").val());
     if ($("#photo").val().length == 0 ) {
         $("#snap").css('background-color', 'red');
         //alert("please take a photo");
@@ -155,10 +183,12 @@ function validateForm() {
         e += 1;
     }
 
+/*
     if ($("#partnumber").val().length == 0 ) {
         $("#partnumber").css('background-color', 'red');
         e += 1;
     }
+*/
 
     if ($("#location").val().length == 0 ) {
         $("#location").css('background-color', 'red');
@@ -171,5 +201,9 @@ function validateForm() {
 
     // previewcontext.clearRect(0, 0, 200, 150);
     // snapshotcontext.clearRect(0, 0, 1280, 800);
+
+    imageSave();
+
+    $('#submitform').attr('action','entry.php?a=test&location='+$('#location').val());
     return true;
 };
