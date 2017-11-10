@@ -170,44 +170,44 @@ tr,td,table {
   </thead>
   <tbody>
     <tr ng-repeat="item in items | filter:{search:searchText}">
-      <td><input type='text' value='{{ item.quantity }}' size='2' ng-keyup="$event.keyCode == 13 ? update(item.id,'quantity',$event.srcElement.value) : null"></input></td>
+      <td><input type='text' value='{{ item.quantity }}' size='2' ng-keyup="$event.keyCode == 13 ? update(item.id,'quantity',$event) : null"></input></td>
       <td><input type='text' value='{{ item.manufacturer }}' size='8' 
-            ng-blur="update(item.id,'manufacturer',$event.srcElement.value)" 
-            ng-keyup="$event.keyCode == 13 ? update(item.id,'manufacturer',$event.srcElement.value) : null"></input></td>
+            ng-blur="update(item.id,'manufacturer',$event)" 
+            ng-keyup="$event.keyCode == 13 ? update(item.id,'manufacturer',$event) : null"></input></td>
       <td>
         <a href='http://www.google.com/search?q={{ item.manufacturer }}+{{ item.partnumber }}' target='_blank'><img src='images/icon_goto.gif'></a>
       <a href='{{ item.datasheeturl }}' target='_blank'><img src='images/icon_pdf.png'></a>
       <a href='{{ item.octoparturl }}' ng-if='item.octoparturl' target='_blank'><img src='images/icon_octopart.png'></a>
       <img src='images/icon_octopart_blank.png' ng-if='!item.octoparturl'>
         <input type='text' value='{{ item.partnumber }}' size='24' 
-            ng-blur="update(item.id,'partnumber',$event.srcElement.value)"
-            ng-keyup="$event.keyCode == 13 ? update(item.id,'partnumber',$event.srcElement.value) : null"></input>
+            ng-blur="update(item.id,'partnumber',$event)"
+            ng-keyup="$event.keyCode == 13 ? update(item.id,'partnumber',$event) : null"></input>
       </td>
       <td>
             <img src='inventoryimages/{{item.image}}' width='16px' height='16px' data-action='zoom'><img src='images/icon_octopart_blank.png' width='16px' height='16px' ng-if='!item.image'></a>
             <input type='text' value='{{ item.description }}' size='60' 
-            ng-blur="update(item.id,'description',$event.srcElement.value)"
-            ng-keyup="$event.keyCode == 13 ? update(item.id,'description',$event.srcElement.value) : null"></input></td>
+            ng-blur="update(item.id,'description',$event)"
+            ng-keyup="$event.keyCode == 13 ? update(item.id,'description',$event) : null"></input></td>
       <td>
         <input type='text' value='{{ item.distributor }}' size='5' 
-            ng-blur="update(item.id,'distributor',$event.srcElement.value)"
-            ng-keyup="$event.keyCode == 13 ? update(item.id,'distributor',$event.srcElement.value) : null"></input>
+            ng-blur="update(item.id,'distributor',$event)"
+            ng-keyup="$event.keyCode == 13 ? update(item.id,'distributor',$event) : null"></input>
         <a href='http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name={{ item.distributorsku }}' target='_blank' ng-if='item.distributorsku.length > 0'><img src='images/icon_goto.gif'></a> 
       </td>
       <td style="width:150px">
         <input type='text' value='{{ item.distributorsku }}' size='25' 
-            ng-blur="update(item.id,'distributorsku',$event.srcElement.value)"
-            ng-keyup="$event.keyCode == 13 ? update(item.id,'distributorsku',$event.srcElement.value) : null"></input>
+            ng-blur="update(item.id,'distributorsku',$event)"
+            ng-keyup="$event.keyCode == 13 ? update(item.id,'distributorsku',$event) : null"></input>
       </td>
       <td><input type='text' value='{{ item.notes }}' 
-            ng-blur="update(item.id,'notes',$event.srcElement.value)"
-            ng-keyup="$event.keyCode == 13 ? update(item.id,'notes',$event.srcElement.value) : null"></input></td>
+            ng-blur="update(item.id,'notes',$event)"
+            ng-keyup="$event.keyCode == 13 ? update(item.id,'notes',$event) : null"></input></td>
       <td><input type='text' value='{{ item.location }}' size='17' 
-            ng-blur="update(item.id,'location',$event.srcElement.value)"
-            ng-keyup="$event.keyCode == 13 ? update(item.id,'location',$event.srcElement.value) : null"></input></td>
+            ng-blur="update(item.id,'location',$event)"
+            ng-keyup="$event.keyCode == 13 ? update(item.id,'location',$event) : null"></input></td>
       <td><input type='text' value='{{ item.reference }}' size='20' 
-            ng-blur="update(item.id,'reference',$event.srcElement.value)"
-            ng-keyup="$event.keyCode == 13 ? update(item.id,'reference',$event.srcElement.value) : null"></input></td>
+            ng-blur="update(item.id,'reference',$event)"
+            ng-keyup="$event.keyCode == 13 ? update(item.id,'reference',$event) : null"></input></td>
       <td><img src='inventoryimages/{{item.photo}}' class='photothumb' height='100' data-action='zoom'></td>
       <td><img src='images/icon_delete.png' ng-click='delete(item.id);'></td>
       <td>ID:{{item.id}}</td>

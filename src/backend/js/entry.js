@@ -204,6 +204,6 @@ function validateForm() {
 
     imageSave();
 
-    $('#submitform').attr('action','entry.php?a=test&location='+$('#location').val());
+    // $('#submitform').attr('action','entry.php?a=test&location='+$('#location').val());
     return true;
 };

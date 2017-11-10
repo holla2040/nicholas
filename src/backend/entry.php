@@ -20,8 +20,7 @@
         // echo $query;
     };
 ?><html>
-<meta charset="utf-8"/>
-<script src="js/jquery.js"></script>
+<meta charset="utf-8"/> <script src="js/jquery.js"></script>
 <link rel='stylesheet' href='css/entry.css'>
 <script src='js/dateFormat.js'></script>
 <style>

@@ -16,17 +16,20 @@ function partsController($scope,$http,$location) {
         })
     };
 
-    $scope.update = function(id,field,text) {
-//        console.log('update '+id+" "+field+" "+text);
-        document.activeElement.blur();
+    $scope.update = function(id,field,e) {
+        if (e) {
+            var target = e.target || e.srcElement;
+            var text = target.value;
+            console.log('update '+id+" "+field+" "+text);
+            document.activeElement.blur();
 
+            $http.get(partsurl+"?action=update&id="+id+"&field="+field+"&text="+text).then(function(response){
 
-        $http.get(partsurl+"?action=update&id="+id+"&field="+field+"&text="+text).then(function(response){
-
-//            console.log(response.data.items);
-// this make interface really slow            $scope.items = response.data.items;
-            document.body.style.cursor = 'auto';
-        })
+    //            console.log(response.data.items);
+    // this make interface really slow            $scope.items = response.data.items;
+                document.body.style.cursor = 'auto';
+            })
+        }
     }
 
     $scope.delete = function(id) {
