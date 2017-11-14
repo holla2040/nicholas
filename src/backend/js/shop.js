@@ -1,5 +1,7 @@
 // from http://www.angularcode.com/simple-task-manager-application-using-angularjs-php-mysql/
-function partsController($scope,$http) {
+var myApp = angular.module('myApp', []);
+myApp.controller('appController', ['$scope','$http','$location',
+function($scope,$http,$location) {
     var partsurl = "shop.php";
 
     function getParts() {
@@ -16,4 +18,4 @@ function partsController($scope,$http) {
 
 
     getParts();
-}
+}]);

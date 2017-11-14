@@ -36,10 +36,10 @@
     }
 
 ?><!DOCTYPE html>
-<html ng-app="">
+<html ng-app="myApp">
 <head>
 <link rel="stylesheet" href = "css/bootstrap.min.css">
-<script src= "js/angular.min.js"></script>
+<script src= "js/angular.min-1.3.20.js"></script>
 <script src= "js/jquery.js"></script>
 <link href="css/zoom.css" rel="stylesheet">
 <style>
@@ -96,16 +96,23 @@
         border:1px solid black;
     }
 
+    .image {
+        border:1px solid black;
+        float: left;
+        text-align:center;
+        margin:1px;
+    }
+
 </style>
 
 
 </head>
 
-<body ng-controller="partsController">
-<b><a href='list.php' target='_blank'>List</a></b>&nbsp;&nbsp;&nbsp;Search <input type='field' ng-model="searchText" style='border: 1px solid'/>
+<body ng-controller="appController">
+<b><a href='list.php' target='_blank'>List</a></b>&nbsp;&nbsp;&nbsp;Search <input type='field' ng-model="searchText" style='border: 1px solid'  ng-model-options="{updateOn : 'change blur'}"/>
 <hr>
 
-<img src='{{item.photo}}' title='Part Number - {{item.partnumber}}&#10;Description - {{item.description}} &#10;Location - {{item.location}} &#10;Quantity - {{item.quantity}}' width='320' height='240' ng-repeat='item in items | filter:{search:searchText}'  data-action='zoom'>
+<div class='image'  ng-repeat='item in items | filter:{search:searchText}'><img src='{{::item.photo}}' title='Part Number - {{::item.partnumber}}&#10;Description - {{::item.description}} &#10;Location - {{::item.location}} &#10;Quantity - {{::item.quantity}}' width='320' height='240' data-action='zoom'><br>{{::item.description}}</div>
 
 <script src= "js/shop.js"></script>
 <script src="js/transition.js"></script>

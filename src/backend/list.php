@@ -68,10 +68,10 @@
         return;
     }
 ?><!DOCTYPE html>
-<html ng-app="">
+<html ng-app="myApp">
 <head>
 <link rel="stylesheet" href = "css/bootstrap.min.css">
-<script src= "js/angular.min.js"></script>
+<script src= "js/angular.min-1.3.20.js"></script>
 <script src= "js/jquery.js"></script>
 <link href="css/zoom.css" rel="stylesheet">
 <style>
@@ -91,12 +91,16 @@ tr,td,table {
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color: #dddddd;
 }
+.imagelabel {
+    width:70px;
+    display:inline-block;
+}
 
 
 </style>
 </head>
 
-<body ng-controller="partsController">
+<body ng-controller="appController">
 <div style='float:right;margin-right:5px'><a href='shop.php'>Shop</a></div>
 <table class="tablea table-striped">
   <thead>
@@ -104,39 +108,39 @@ tr,td,table {
       <th>Q</th>
       <th>Manu</th>
       <th>PartNum</th>
-      <th>Description <input type='field' ng-model="searchText" style='border: 1px solid'/> </th>
+      <th>Description <input type='field' ng-model="searchText" style='border: 1px solid'  ng-model-options="{updateOn : 'change blur'}"/> </th>
       <th>Dist</th>
       <th>Dist SKU</th>
       <th>Notes</th>
       <th>Location</th>
       <th>Reference</th>
-      <th>Image</th>
+      <th><label class='imagelabel'><input type='checkbox' ng-model='showimage'>Image</label></th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="item in items | filter:{search:searchText}">
-      <td><input type='text' value='{{item.quantity}}' size='3'></input></td>
-      <td><input type='text' value='{{item.manufacturer}}' size='8'</input></td>
+      <td><input type='text' value='{{::item.quantity}}' size='3'></input></td>
+      <td><input type='text' value='{{::item.manufacturer}}' size='8'</input></td>
       <td>
-        <a href='http://www.google.com/search?q={{item.manufacturer}}+{{item.partnumber}}' target='_blank'><img src='images/icon_goto.gif'></a>
-      <a href='{{item.datasheeturl}}' target='_blank'><img src='images/icon_pdf.png'></a>
-      <a href='{{item.octoparturl}}' ng-if='item.octoparturl' target='_blank'><img src='images/icon_octopart.png'></a>
-        <input type='text' value='{{item.partnumber}}' size='20'></input>
+        <a href='http://www.google.com/search?q={{::item.manufacturer}}+{{::item.partnumber}}' target='_blank'><img src='images/icon_goto.gif'></a>
+      <a href='{{::item.datasheeturl}}' target='_blank'><img src='images/icon_pdf.png'></a>
+      <a href='{{::item.octoparturl}}' ng-if='item.octoparturl' target='_blank'><img src='images/icon_octopart.png'></a>
+        <input type='text' value='{{::item.partnumber}}' size='20'></input>
       </td>
       <td>
-            <img src='inventoryimages/{{item.image}}' height='30px' width='30px'data-action='zoom'><img src='images/icon_octopart_blank.png' height='30px' width='30px' ng-if='!item.image'></a>
-            <input type='text' value='{{item.description}}' size='50'></input>
+            <img src='inventoryimages/{{::item.image}}' height='30px' width='30px'data-action='zoom'><img src='images/icon_octopart_blank.png' height='30px' width='30px' ng-if='!item.image'></a>
+            <input type='text' value='{{::item.description}}' size='50'></input>
     </td>
-      <td><input type='text' value='{{item.distributor}}' size='5'></input>
-        <a href='http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name={{ item.distributorsku }}' target='_blank' ng-if='item.distributorsku.length > 0'><img src='images/icon_goto.gif'></a> 
+      <td><input type='text' value='{{::item.distributor}}' size='5'></input>
+        <a href='http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name={{::item.distributorsku}}' target='_blank' ng-if='item.distributorsku.length > 0'><img src='images/icon_goto.gif'></a> 
       </td>
       <td style="width:150px">
-        <input type='text' value='{{ item.distributorsku }}' size='12'></input>
+        <input type='text' value='{{::item.distributorsku}}' size='12'></input>
       </td>
-      <td><input type='text' value='{{ item.notes }}'></input></td>
-      <td><input type='text' value='{{ item.location }}' size='17' ></input></td>
-      <td><input type='text' value='{{ item.reference }}' size='15'></input></td>
-      <td><img src='{{item.photo}}' height='100' data-action='zoom'></td>
+      <td><input type='text' value='{{::item.notes}}'></input></td>
+      <td><input type='text' value='{{::item.location}}' size='17' ></input></td>
+      <td><input type='text' value='{{::item.reference}}' size='15'></input></td>
+      <td><img src='{{::item.photo}}' height='100' data-action='zoom'  ng-if="showimage"></td>
     </tr>
   </tbody>
 </table>
